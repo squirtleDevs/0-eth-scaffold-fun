@@ -7,6 +7,7 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 //learn more: https://docs.openzeppelin.com/contracts/3.x/erc721
+//reference material (see README.md here): https://github.com/scaffold-eth/scaffold-eth-challenges/tree/challenge-0-simple-nft
 
 // GET LISTED ON OPENSEA: https://testnets.opensea.io/get-listed/step-two
 

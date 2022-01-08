@@ -1,0 +1,26 @@
+{
+  "name": "0-eth-scaffold-fun",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:squirtleDevs/0-eth-scaffold-fun.git",
+  "author": "<33653442+umphams@users.noreply.github.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^8.6.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "prettier": "^2.5.1",
+    "prettier-plugin-solidity": "^1.0.0-beta.19",
+    "solhint": "^3.3.6",
+    "solhint-plugin-prettier": "^0.0.5"
+  },
+  "scripts": {
+    "lint": "solium --dir ./contracts",
+    "lint:fix": "solium --dir ./contracts --fix",
+    "prettier": "prettier ./contracts",
+    "prettier:fix": "prettier --write ./contracts"
+  },
+  "dependencies": {
+    "solium": "^1.2.5"
+  }
+}

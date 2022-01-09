@@ -8,7 +8,6 @@ import "./YourToken.sol";
  * @title Vendor
  * @author Steve P.
  * @notice "Scaffold-ETH Challenge 2" as per https://speedrunethereum.com/challenge/token-vendor
- * NOTE: contract v1 currently is on Rinkeby testnet: <insert url>
  * NOTE: Deployer contract on rinkeby (showing txs for the two contracts here on testnet rinkeby etherscan): <insert addr>
  * NOTE: Challenge scope is as per the challenge instructions outlined in README.md
  */
@@ -28,15 +27,9 @@ contract Vendor is Ownable {
      */
     event TokensSold(address seller, uint256 amountOfTokens, uint256 amountOfEth);
 
-    /* ========== CONSTRUCTOR ========== */
-
     constructor(address tokenAddress) public {
         yourToken = YourToken(tokenAddress);
     }
-
-    /* ========== MUTATIVE FUNCTIONS ========== */
-
-    // ToDo: create a payable buyTokens() function:
 
     /**
      * @notice allows user to buy tokens (GLD) for a set amount of ETH per token

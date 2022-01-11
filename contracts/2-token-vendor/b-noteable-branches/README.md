@@ -54,10 +54,7 @@ You'll have three terminals up for:
 Mint **1000** (\* 10 \*\* 18) in the constructor (to the `msg.sender`) and then send them to your frontend address in the `deploy/00_deploy_your_token.js`:
 
 ```javascript
-const result = await yourToken.transfer(
-  "**YOUR FRONTEND ADDRESS**",
-  ethers.utils.parseEther("1000")
-);
+const result = await yourToken.transfer("**YOUR FRONTEND ADDRESS**", ethers.utils.parseEther("1000"));
 ```
 
 **SP - NOTE: You will also have to uncomment and align the arguments for the deploy script.**
@@ -93,10 +90,7 @@ You will also want to change `00_deploy_your_token.js` and `01_deploy_vendor.js`
 **SP - NOTE: I ran into errors here as the scripts require that the YourToken.sol contract is deployed first, then uses that address as an argument for the Vendor.sol constructor. Changing the recepient of the initial transfer of minted GLD to Vendor.sol cannot happen due to the circularity of the proposed process. Instead what ended up working for me is to send the initial mint amount to `deployer` within the `result` function in `00_deploy_your_token.js` and from there carry out the `transferTransaction` within `01_deploy_vendor.js`.**
 
 ```js
-const result = await yourToken.transfer(
-  vendor.address,
-  ethers.utils.parseEther("1000")
-);
+const result = await yourToken.transfer(vendor.address, ethers.utils.parseEther("1000"));
 ```
 
 (You will use the `YourToken` UI tab and the frontend for most of your testing. Most of the UI is already built for you for this challenge.)

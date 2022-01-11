@@ -78,7 +78,7 @@ const scaffoldEthProvider = navigator.onLine
   : null;
 const poktMainnetProvider = navigator.onLine
   ? new ethers.providers.StaticJsonRpcProvider(
-      "https://eth-mainnet.gateway.pokt.network/v1/lb/611156b4a585a20035148406",
+      "https://eth-mainnet.gateway.pokt.network/v1/lb/611156b4a585a20035148406"
     )
   : null;
 const mainnetInfura = navigator.onLine
@@ -423,7 +423,7 @@ function App(props) {
     const provider = await web3Modal.connect();
     setInjectedProvider(new ethers.providers.Web3Provider(provider));
 
-    provider.on("chainChanged", chainId => {
+    provider.on("chainChanged", (chainId) => {
       console.log(`chain changed to ${chainId}! updating providers`);
       setInjectedProvider(new ethers.providers.Web3Provider(provider));
     });
@@ -531,7 +531,7 @@ function App(props) {
                 style={{ textAlign: "center" }}
                 placeholder={"amount of tokens to send"}
                 value={tokenSendAmount}
-                onChange={e => {
+                onChange={(e) => {
                   setTokenSendAmount(e.target.value);
                 }}
               />
@@ -542,7 +542,7 @@ function App(props) {
               type={"primary"}
               onClick={() => {
                 tx(
-                  writeContracts.YourToken.transfer(tokenSendToAddress, ethers.utils.parseEther("" + tokenSendAmount)),
+                  writeContracts.YourToken.transfer(tokenSendToAddress, ethers.utils.parseEther("" + tokenSendAmount))
                 );
               }}
             >
@@ -603,7 +603,7 @@ function App(props) {
                     style={{ textAlign: "center" }}
                     placeholder={"amount of tokens to buy"}
                     value={tokenBuyAmount}
-                    onChange={e => {
+                    onChange={(e) => {
                       setTokenBuyAmount(e.target.value);
                     }}
                   />
@@ -696,7 +696,7 @@ function App(props) {
               <div>Buy Token Events:</div>
               <List
                 dataSource={buyTokensEvents}
-                renderItem={item => {
+                renderItem={(item) => {
                   return (
                     <List.Item key={item.blockNumber + item.blockHash}>
                       <Address value={item.args[0]} ensProvider={mainnetProvider} fontSize={16} /> paid
@@ -714,7 +714,7 @@ function App(props) {
               <div>Sell Token Events:</div>
               <List
                 dataSource={sellTokenEvents}
-                renderItem={item => {
+                renderItem={(item) => {
                   return (
                     <List.Item key={item.blockNumber + item.blockHash}>
                       <Address value={item.args[0]} ensProvider={mainnetProvider} fontSize={16} /> sold

@@ -24,19 +24,14 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
   console.log("\n 🏵  Sending all 1000 tokens to the vendor...\n");
 
   //what account is sending the GLD to the vendor.address?
-  const transferTransaction = await yourToken.transfer(
-    vendor.address,
-    ethers.utils.parseEther("1000")
-  );
+  const transferTransaction = await yourToken.transfer(vendor.address, ethers.utils.parseEther("1000"));
 
   console.log("\n    ✅ confirming...\n");
   await sleep(5000); // wait 5 seconds for transaction to propagate
 
   // ToDo: change address to your frontend address vvvv
   console.log("\n 🤹  Sending ownership to frontend address...\n");
-  const ownershipTransaction = await vendor.transferOwnership(
-    "0xD0AF94008ac3080a1aBDcC44B96D071B0573f76d"
-  );
+  const ownershipTransaction = await vendor.transferOwnership("0xD0AF94008ac3080a1aBDcC44B96D071B0573f76d");
   console.log("\n    ✅ confirming...\n");
   const ownershipResult = await ownershipTransaction.wait();
 

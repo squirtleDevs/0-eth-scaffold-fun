@@ -5,6 +5,17 @@ This will test your knowledge of calldata and you should go all the way to mainn
 
 This little tweet led me down a 🐇🕳 but was really great to ensure I understood calldata. I feel that it is something fundamental that is easy to glaze over (seeing as I have written some smart contracts for several months).
 
+_tldr of general lessons learnt:_
+
+> Recall: when a user calls a function in an ext. contract, and the contract itself, within that same function, sends the tx... then the user calling the contract effectively:
+
+1. private signs the tx,
+2. pays for the tx in gas (msg.value),
+3. gave the details for the tx (whatever the function needed to transact: arguments perhaps) --> which then get encoded into hexstring with the first two bytes of the hexstring being the function signature,
+4. state change occurs to the EVM requiring the sent tx.
+
+> The neat part is that you can use a proxy to send the tx, and to pay for the tx, but you sign it. You do that by passing the function hexstring to the function `call()` in a proxy contract and have it carry out the function for you. \*I believe you use `encode`, not `encodepacked` as that is not universal way of passing calldata between contracts?
+
 ---
 
 ## How to Go About It

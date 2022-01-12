@@ -5,11 +5,11 @@
 > 🙋🏻‍♂️ Smart Contracts for Scaffold-ETH will be stored within this open repo for future reference. Note that the contracts are stored here to show:
 
 1. The final submission for that challenge.
-2. Possible areas of study that I found noteable for the future.
+2. Possible areas of study that I found noteable for the future (in their own NOTES.md files, respectively).
 
 > The two aspects above are stored in respective sub-directories for each project. NOTE: Of course, these are just the raw smart contract files, so the necessary dependencies will be needed and whatnot. Consider these contracts just a reference, not an easily fork-able and deploy-able repo.
-
-> Each project is submitted through the telegram and other communications methods outlined by Austin Griffith, and contracts are deployed typically on Rinkeby. Rinkeby addresses are to be stored in the Details.md for each project.
+> vhttps://github.com/squirtleDevs/0-eth-scaffold-fun
+> Each project is submitted through the telegram and other communications methods outlined by Austin Griffith, if possible, and contracts are deployed typically on Rinkeby. Rinkeby addresses are to be stored in the Details.md for each project.
 
 ---
 
@@ -20,19 +20,29 @@
 1. Ethereum Speed Run: https://medium.com/@austin_48503/%EF%B8%8Fethereum-dev-speed-run-bd72bcba6a4c
 2. AustinGriffith Tweetstorm: https://twitter.com/austingriffith/status/1478760479275175940?s=20
 
+**NOTE: It seems that there are two pointers for Scaffold-Eth Challenge material:**
+
+1. Most (if not all challenges outlined in Austin's tweetstorm): https://github.com/scaffold-eth/scaffold-eth-examples/tree/master
+2. Official Scaffold-Eth github repo that has the experimental goodness: https://github.com/scaffold-eth/scaffold-eth
+
+---
+
 > _Below is the combined curriculum taking into account these two points of reference (there was a lot of overlap!). NOTE: I think I will have NOTES.md for each challenge that outline what was learnt, questions on the topics, good resources._
 
 1. Scaffold-ETH challenges: simple NFT, staking app, token vendor.
-2. A quick jumping off point is building an “executor” smart contract that just .calls() anything the owner sends it. This will test your knowledge of calldata and you should go all the way to mainnet with it.
-3. Next, build your own multisig using this as a reference: https://solidity-by-example.org/app/multi-sig-wallet/
 
-Make sure you understand how signed messages work and how you can recover them in a smart contract: https://github.com/scaffold-eth/scaffold-eth/tree/signature-recover
+2. THEORY HEAVY (if you're new): A quick jumping off point is building an “executor” smart contract that just .calls() anything the owner sends it. This will test your knowledge of calldata and you should go all the way to mainnet with it.
 
-- 🧑‍🏭 Learn how signed messages can be used off-chain as a “sign in with Ethereum”: https://github.com/austintgriffith/scaffold-eth/tree/sign-in-with-web3
+3. 👛 Next, build your own multisig using this as a reference: https://solidity-by-example.org/app/multi-sig-wallet/
+
+\*Make sure you understand how signed messages work and how you can recover them in a smart contract: https://github.com/scaffold-eth/scaffold-eth-examples/tree/signature-recover
+
+- 🧑‍🏭 \*Learn how signed messages can be used off-chain as a “sign in with Ethereum”: https://github.com/scaffold-eth/scaffold-eth-examples/tree/sign-in-with-web3
 - 📡 Use that same signed message on-chain with ecrecover() or OpenZeppelin’s ECDSA lib to recover a signed message in Solidity: https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/cryptography/ECDSA.sol
 
 Try building a signature based multisig: https://github.com/scaffold-eth/scaffold-eth-examples/tree/meta-multi-sig
-⚔️ Side Quest: Extend it into a ⏳ streaming multi-sig: https://github.com/austintgriffith/scaffold-eth/tree/streaming-meta-multi-sig
+
+⚔️ \*Side Quest: Extend it into a ⏳ streaming multi-sig: https://github.com/scaffold-eth/scaffold-eth-examples/tree/streaming-meta-multi-sig
 👩‍👩‍👧‍👧 Extend the mult-sig branch and create a DAO where members “vote” on proposed transactions!
 
 4. Make sure you understand how LP tokens work.

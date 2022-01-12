@@ -1,0 +1,1 @@
+8. Make sure you're solid on IPFS: https://github.com/scaffold-eth/scaffold-eth/tree/image-upload-ipfs 8. Build and understand a merkle tree distribution: https://github.com/scaffold-eth/scaffold-eth-examples/tree/merkler

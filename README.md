@@ -2,23 +2,28 @@
 
 ## 🚩 Purpose of this Repo
 
-> 🙋🏻‍♂️ Smart Contracts for Scaffold-ETH will be stored within this open repo for future reference. Note that the contracts are stored here to show:
+🙋🏻‍♂️ Smart Contracts for Scaffold-ETH will be stored within this open repo for future reference. Some challenges as per Austin Griffith's mega-thread (See link below) are a bit tough to tackle without some documentation / related reading recommendations. Hopefully this open repo compliments what the scaffold-eth team started! 🤝 **Please feel free to contribute as everything here is "live" and "rough.**" Some folders and files, basically chicken scratch.
 
-1. The final submission for that challenge.
-2. Possible areas of study that I found noteable for the future (in their own NOTES.md files, respectively).
+> Note that the contracts are stored here to show:
+>
+> 1. The final submission for that challenge.
+> 2. Possible areas of study that I found noteable for the future (in their own NOTES.md files, respectively).
 
-> The two aspects above are stored in respective sub-directories for each project. NOTE: Of course, these are just the raw smart contract files, so the necessary dependencies will be needed and whatnot. Consider these contracts just a reference, not an easily fork-able and deploy-able repo.
-> vhttps://github.com/squirtleDevs/0-eth-scaffold-fun
-> Each project is submitted through the telegram and other communications methods outlined by Austin Griffith, if possible, and contracts are deployed typically on Rinkeby. Rinkeby addresses are to be stored in the Details.md for each project.
+The two aspects above are stored in respective sub-directories for each project. NOTE: Of course, these are just the raw smart contract files, so the necessary dependencies will be needed and whatnot. I would get them from scaffold-eth github repo. --> https://github.com/scaffold-eth/scaffold-eth-examples/tree/master
+
+> Within this repo, consider these contracts just a reference, not an easily fork-able and deploy-able repo.
+> https://github.com/squirtleDevs/0-eth-scaffold-fun
+
+Each project is submitted through the telegram and other communications methods outlined by Austin Griffith, if possible, and contracts are deployed typically on Rinkeby. TBD: Rinkeby addresses are to be stored in the Details.md for each project.
 
 ---
 
-### My Interpretation of the Curriculum
+### 🤓 My Interpretation of the Curriculum
 
 > The Ethereum Speed Run (July 30, 2021) and Austin Griffith's (@austingriffith)'s tweetstorm (January 5th, 2022) are what I reference for how I will go about learning with scaffold-eth.
-
-1. Ethereum Speed Run: https://medium.com/@austin_48503/%EF%B8%8Fethereum-dev-speed-run-bd72bcba6a4c
-2. AustinGriffith Tweetstorm: https://twitter.com/austingriffith/status/1478760479275175940?s=20
+>
+> 1. Ethereum Speed Run: https://medium.com/@austin_48503/%EF%B8%8Fethereum-dev-speed-run-bd72bcba6a4c
+> 2. AustinGriffith Tweetstorm: https://twitter.com/austingriffith/status/1478760479275175940?s=20
 
 **NOTE: It seems that there are two pointers for Scaffold-Eth Challenge material:**
 
@@ -26,6 +31,8 @@
 2. Official Scaffold-Eth github repo that has the experimental goodness: https://github.com/scaffold-eth/scaffold-eth
 
 ---
+
+### 👨🏻‍🏫 Curriculum
 
 > _Below is the combined curriculum taking into account these two points of reference (there was a lot of overlap!). NOTE: I think I will have NOTES.md for each challenge that outline what was learnt, questions on the topics, good resources._ > _Also, tasks that are italicized, are from the eth speed run blog post from July 2021_
 

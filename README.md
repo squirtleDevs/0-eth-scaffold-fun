@@ -27,23 +27,23 @@
 
 ---
 
-> _Below is the combined curriculum taking into account these two points of reference (there was a lot of overlap!). NOTE: I think I will have NOTES.md for each challenge that outline what was learnt, questions on the topics, good resources._
+> _Below is the combined curriculum taking into account these two points of reference (there was a lot of overlap!). NOTE: I think I will have NOTES.md for each challenge that outline what was learnt, questions on the topics, good resources._ > _Also, tasks that are italicized, are from the eth speed run blog post from July 2021_
 
 1. Scaffold-ETH challenges: simple NFT, staking app, token vendor.
 
-2. THEORY HEAVY (if you're new): A quick jumping off point is building an “executor” smart contract that just .calls() anything the owner sends it. This will test your knowledge of calldata and you should go all the way to mainnet with it.
+2. THEORY HEAVY (if you're new): A quick jumping off point is building an “executor” smart contract that just .calls() anything the owner sends it. This will test your knowledge of calldata and you should go all the way to mainnet with it. See my NOTES.md for this challenge as it has some good extra info. Also, I think if you cover these sub-tasks below first that would help with this general `executor.sol` task.
+   _\*Make sure you understand how signed messages work and how you can recover them in a smart contract: https://github.com/scaffold-eth/scaffold-eth-examples/tree/signature-recover_
+   _- 🧑‍🏭 \*Learn how signed messages can be used off-chain as a “sign in with Ethereum”: https://github.com/scaffold-eth/scaffold-eth-examples/tree/sign-in-with-web3_
+   _- 📡 Use that same signed message on-chain with ecrecover() or OpenZeppelin’s ECDSA lib to recover a signed message in Solidity: https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/cryptography/ECDSA.sol_
 
 3. 👛 Next, build your own multisig using this as a reference: https://solidity-by-example.org/app/multi-sig-wallet/
 
-\*Make sure you understand how signed messages work and how you can recover them in a smart contract: https://github.com/scaffold-eth/scaffold-eth-examples/tree/signature-recover
-
-- 🧑‍🏭 \*Learn how signed messages can be used off-chain as a “sign in with Ethereum”: https://github.com/scaffold-eth/scaffold-eth-examples/tree/sign-in-with-web3
-- 📡 Use that same signed message on-chain with ecrecover() or OpenZeppelin’s ECDSA lib to recover a signed message in Solidity: https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/cryptography/ECDSA.sol
+   \*Make sure you understand how signed messages work and how you can recover them in a smart contract: https://github.com/scaffold-eth/scaffold-eth-examples/tree/signature-recover
 
 Try building a signature based multisig: https://github.com/scaffold-eth/scaffold-eth-examples/tree/meta-multi-sig
 
-⚔️ \*Side Quest: Extend it into a ⏳ streaming multi-sig: https://github.com/scaffold-eth/scaffold-eth-examples/tree/streaming-meta-multi-sig
-👩‍👩‍👧‍👧 Extend the mult-sig branch and create a DAO where members “vote” on proposed transactions!
+_⚔️ \*Side Quest: Extend it into a ⏳ streaming multi-sig: https://github.com/scaffold-eth/scaffold-eth-examples/tree/streaming-meta-multi-sig_
+_👩‍👩‍👧‍👧 Extend the mult-sig branch and create a DAO where members “vote” on proposed transactions!_
 
 4. Make sure you understand how LP tokens work.
 
@@ -55,9 +55,10 @@ PRO TIP, use a master branch of 🏗 scaffold-eth so you have all the latest goo
 
 Web3 Twitter is really useful for getting new information and spreading awareness about what you are building.
 
-6. SVG NFT
+6. SVG NFT: Try creating an SVG NFT where the smart contract renders the NFT --> 🟢 Fork this SVG NFT and make your own… check out the SVG and JSON getting rendered by this smart contract: https://github.com/scaffold-eth/scaffold-eth/tree/loogies-svg-nft
+   🎞 Watch me yolo an SVG NFT to mainnet for the lols: https://twitter.com/austingriffith/status/1433894316737368067?s=20
 
-7. Build an NFT with a price curve
+7. ⚖️ Build an NFT with a price curve. Remember, no decimals; you'll need a NUM/DEN: https://github.com/scaffold-eth/scaffold-eth-examples/blob/moonshot-bots-with-curve/packages/hardhat/contracts/MoonshotBot.sol#L63
 
 8. Make sure you're solid on IPFS: https://github.com/scaffold-eth/scaffold-eth/tree/image-upload-ipfs 8. Build and understand a merkle tree distribution: https://github.com/scaffold-eth/scaffold-eth-examples/tree/merkler
 
@@ -73,8 +74,7 @@ Web3 Twitter is really useful for getting new information and spreading awarenes
 
 14. Token Gating/Enabling, https://twitter.com/austingriffith/status/1478760499579797515
 
-15. NFTs: https://twitter.com/austingriffith/status/1478760501538557952
-    🟢 Fork this SVG NFT and make your own… check out the SVG and JSON getting rendered by this smart contract: https://github.com/scaffold-eth/scaffold-eth/blob/loogies-svg-nft/packages/hardhat/contracts/YourCollectible.sol#L100
+15. NFTs on Optimism, ERC20 bonding curve, and MATT Auction: https://twitter.com/austingriffith/status/1478760501538557952
 
 16. Sending ETH from a contract, understanding the Graph, creating mempool dashboard: https://twitter.com/austingriffith/status/1478760503623045120
 
@@ -85,7 +85,7 @@ Web3 Twitter is really useful for getting new information and spreading awarenes
 
 19. Different versions of scaffold-eth: https://twitter.com/austingriffith/status/1478760509402873857
 
-20. Stuff that wasn't mentioned in tweetstorm but is in the July 2021 speed run:
+20. _Stuff that wasn't mentioned in tweetstorm but is in the July 2021 speed run:_
     - 🐸 You can use an “oracle” to provide randomness and external data too: https://github.com/austintgriffith/scaffold-eth/tree/chainlink-tutorial-1
     - ⚔️ Side Quest: deep dive bonding curves for ERC20s: https://github.com/austintgriffith/scaffold-eth/tree/bonding-curve
     - 👉 Try out this <Swap/> tutorial where we build a Uniswap interface: https://azfuller20.medium.com/swap-with-uniswap-wip-f15923349b3d

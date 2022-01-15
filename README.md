@@ -45,8 +45,6 @@ Each project is submitted through the telegram and other communications methods 
 
 3. 👛 Next, build your own multisig using this as a reference: https://solidity-by-example.org/app/multi-sig-wallet/
 
-   \*Make sure you understand how signed messages work and how you can recover them in a smart contract: https://github.com/scaffold-eth/scaffold-eth-examples/tree/signature-recover
-
 Try building a signature based multisig: https://github.com/scaffold-eth/scaffold-eth-examples/tree/meta-multi-sig
 
 _⚔️ \*Side Quest: Extend it into a ⏳ streaming multi-sig: https://github.com/scaffold-eth/scaffold-eth-examples/tree/streaming-meta-multi-sig_

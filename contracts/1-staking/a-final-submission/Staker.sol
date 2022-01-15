@@ -9,8 +9,6 @@ import "./ExampleExternalContract.sol";
  * @title Staker
  * @author Steve P.
  * @notice "Scaffold-ETH Challenge 1" as per https://github.com/scaffold-eth/scaffold-eth-challenges/tree/challenge-1-decentralized-staking#-scaffold-eth---buidlguidl, and outlined here: https://medium.com/@austin_48503/%EF%B8%8Fethereum-dev-speed-run-bd72bcba6a4c
- * NOTE: contract v1 currently is on Rinkeby testnet: https://rinkeby.etherscan.io/address/0xcE1186D11f6363094Dd3C07717c6E057fFAa9c1c
- * NOTE: Deployer contract on rinkeby (showing txs for the two contracts here on testnet rinkeby etherscan): 0xc1D97D64B7e60aB22118f03F1cEaBcD9f10B8092
  * NOTE: Contract Staker is only a one-time contract. Once staking deadline is passed, there is no way to set deadline again to start a new staking time-frame. One could do this next phase of the contract through multiple ways, but is considered out of scope for this challenge (self interpretted). This also means that either the contract becomes open for withdrawing of funds, or it deposits total funds to the external contract once threshold is surpassed. Funds are not able to be withdrawn from ExampleExternalContract as that is not within the scope of this challenge as well.
  */
 contract Staker {
@@ -141,6 +139,6 @@ contract Staker {
      * @notice sets deadline upon contract creation
      */
     function setDeadline() internal {
-        deadline = block.timestamp + 1 minutes;
+        deadline = block.timestamp + 72 hours;
     }
 }

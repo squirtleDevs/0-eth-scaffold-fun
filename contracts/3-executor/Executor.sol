@@ -2,7 +2,7 @@
 
 pragma solidity 0.8.4;
 
-// import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 import "hardhat/console.sol";
 import "./ExampleExternalContract.sol";
 
@@ -13,7 +13,7 @@ import "./ExampleExternalContract.sol";
  * NOTE: contract v1 currently is on Rinkeby testnet: <insert url>
  * NOTE: From Tweet: A quick jumping off point is building an “executor” smart contract that just .calls() anything the owner sends it. This will test your knowledge of calldata and you should go all the way to mainnet with it. See NOTES.md for my thoughts on how to tackle this.
  */
-contract Executor {
+contract Executor is Ownable{
     bytes32 passedCallData;
 
     /* ========== EVENTS ========== */
@@ -35,14 +35,19 @@ contract Executor {
 
     /* ========== CONSTRUCTOR ========== */
 
-    constructor() {}
+    constructor(address owner) {
+        _transferOwnership(owner); // deployer address is the owner when generating contract, so it is the msg.sender that transfers Ownership to the address I want to be owner.
+    }
 
     /* ========== MUTATIVE FUNCTIONS ========== */
 
     /**
-     * @notice collect funds and track individual 'balances' with a mapping
+     * @notice .calls() anything the owner sends it.
      */
-    function calls(bytes32 passedCallData) public {
+    function calls(bytes32 passedCallData) public onlyOwner {
+        if (passedCallData != 0x00) {
+        msg.sender.call{value: msg.value}(passedCallData);
         // emit ExtCall();
+        }
     }
 }

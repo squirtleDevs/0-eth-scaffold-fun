@@ -37,7 +37,7 @@ Going through this material helped me understand these main take-aways:
 Once you go have grasped the above, then writing the smart contracts hopefully will be more straight forward. This side-quest from 🏃🏻‍♂️ eth-dev-speedrun is a nice way to test out deploying your own smart contracts with the scaffold-eth front end.
 
 Recall:
-ABI is the binary interface that is generated when you compile your smart contracts. It is typically located in a subdirectory "artifacts" for the respective project.
+ABI is the binary interface that is generated when you compile your smart contracts. It is typically located in a subdirectory "artifacts" for the respective project. When you import libraries (other contracts), or inherit them, do you then get access to their contract addresses and their ABIs? AKA, can I just supply a hash for a tx
 How to import ABI to frontend?
 
 1. Copy and Paste the API into the

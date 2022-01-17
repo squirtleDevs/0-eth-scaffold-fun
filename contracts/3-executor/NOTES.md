@@ -16,6 +16,14 @@ _tldr of general lessons learnt:_
 
 > The neat part is that you can use a proxy to send the tx, and to pay for the tx, but you sign it. You do that by passing the function hexstring to the function `call()` in a proxy contract and have it carry out the function for you. \*I believe you use `encode`, not `encodepacked` as that is not universal way of passing calldata between contracts?
 
+Useful links as I starting to actually put everything together:
+
+1. https://solidity-by-example.org/call/
+2. https://ethereum.stackexchange.com/questions/67572/abi-encodewithsignature-did-not-work
+3. https://medium.com/@libertylocked/what-are-abi-encoding-functions-in-solidity-0-4-24-c1a90b5ddce8
+4. https://medium.com/finnovate-io/how-do-i-sign-transactions-with-web3-f90a853904a2
+5. https://ethereum.stackexchange.com/questions/104167/solidity-callabi-encodewithsignature-not-working?rq=1
+
 ---
 
 ## How to Go About It

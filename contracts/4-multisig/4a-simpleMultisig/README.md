@@ -5,6 +5,8 @@ Second: Try building a signature based multisig: https://github.com/scaffold-eth
 
 ---
 
+Project 4a: Simple Multisig from Solidity by Example
+
 👛 Next, build your own multisig using this as a reference: https://solidity-by-example.org/app/multi-sig-wallet/
 
 // submit a transaction
@@ -24,6 +26,8 @@ Feature 6: removeSigner() --> use array.pop and get rid of a signer, change the 
 
 ---
 
+# Parts to Include in Cleaned-Up Repo
+
 After taking a look at the smart contracts, a couple of notes:
 
 - Use of arrays in combination with mappings seem to be a systematic pattern that pops up in more and more smart contracts.
@@ -32,7 +36,7 @@ After taking a look at the smart contracts, a couple of notes:
 
 > We see that with how the multisig contract has an array of addresses as owners, and uses those addresses in a mapping as the keys to get further data (isOwner where they find out if the bool is true or false). Thinking about this further... we can see how using mappings and known keys is far more efficient than looping through the array.
 
-> Another common pattern is to use an array of data to create a loop to populate a mapping for that respective data array (keys)
+> Another common pattern is to use an array of data to create a loop to populate a mapping for that respective data array (keys). Understanding these core elements of solidity is quite important: https://www.devtwins.com/blog/understanding-mapping-vs-array-in-solidity
 
 > Testing the call{}() function to see if it actually works with the data tx seen in the multisig solidity by example contract. Doing the test in remix.
 

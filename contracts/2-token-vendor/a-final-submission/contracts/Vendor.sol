@@ -8,8 +8,8 @@ import "./YourToken.sol";
  * @title Vendor
  * @author Steve P.
  * @notice "Scaffold-ETH Challenge 2" as per https://speedrunethereum.com/challenge/token-vendor
- * NOTE: Deployer contract on rinkeby (showing txs for the two contracts here on testnet rinkeby etherscan): <insert addr>
  * NOTE: Challenge scope is as per the challenge instructions outlined in README.md
+ * NOTE: I chose to not disable the owner ability to withdraw from the Vendor, although I understand that it would be ideal for an automated, 24/7 vending machine!
  */
 contract Vendor is Ownable {
     YourToken yourToken;

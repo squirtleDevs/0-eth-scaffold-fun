@@ -60,7 +60,7 @@ const { ethers } = require("ethers");
 */
 
 /// 📡 What chain are your contracts deployed to?
-const targetNetwork = NETWORKS.localhost; // <------- select your target frontend network (localhost, rinkeby, xdai, mainnet)
+const targetNetwork = NETWORKS.rinkeby; // <------- select your target frontend network (localhost, rinkeby, xdai, mainnet)
 
 // 😬 Sorry for all the console logging
 const DEBUG = true;
@@ -78,7 +78,7 @@ const scaffoldEthProvider = navigator.onLine
   : null;
 const poktMainnetProvider = navigator.onLine
   ? new ethers.providers.StaticJsonRpcProvider(
-      "https://eth-mainnet.gateway.pokt.network/v1/lb/611156b4a585a20035148406"
+      "https://eth-mainnet.gateway.pokt.network/v1/lb/611156b4a585a20035148406",
     )
   : null;
 const mainnetInfura = navigator.onLine
@@ -423,7 +423,7 @@ function App(props) {
     const provider = await web3Modal.connect();
     setInjectedProvider(new ethers.providers.Web3Provider(provider));
 
-    provider.on("chainChanged", (chainId) => {
+    provider.on("chainChanged", chainId => {
       console.log(`chain changed to ${chainId}! updating providers`);
       setInjectedProvider(new ethers.providers.Web3Provider(provider));
     });
@@ -531,7 +531,7 @@ function App(props) {
                 style={{ textAlign: "center" }}
                 placeholder={"amount of tokens to send"}
                 value={tokenSendAmount}
-                onChange={(e) => {
+                onChange={e => {
                   setTokenSendAmount(e.target.value);
                 }}
               />
@@ -542,7 +542,7 @@ function App(props) {
               type={"primary"}
               onClick={() => {
                 tx(
-                  writeContracts.YourToken.transfer(tokenSendToAddress, ethers.utils.parseEther("" + tokenSendAmount))
+                  writeContracts.YourToken.transfer(tokenSendToAddress, ethers.utils.parseEther("" + tokenSendAmount)),
                 );
               }}
             >
@@ -603,7 +603,7 @@ function App(props) {
                     style={{ textAlign: "center" }}
                     placeholder={"amount of tokens to buy"}
                     value={tokenBuyAmount}
-                    onChange={(e) => {
+                    onChange={e => {
                       setTokenBuyAmount(e.target.value);
                     }}
                   />
@@ -626,7 +626,8 @@ function App(props) {
               </Card>
             </div>
 
-            {/*Extra UI for buying the tokens back from the user using "approve" and "sellTokens"
+            {/*Extra UI for buying the tokens back from the user using "approve" and "sellTokens"*/}
+
             <Divider />
             <div style={{ padding: 8, marginTop: 32, width: 300, margin: "auto" }}>
               <Card title="Sell Tokens">
@@ -643,15 +644,19 @@ function App(props) {
                   />
                   <Balance balance={ethValueToSellTokens} dollarMultiplier={price} />
                 </div>
-                {isSellAmountApproved?
-
+                {isSellAmountApproved ? (
                   <div style={{ padding: 8 }}>
+                    <Button disabled={true} type={"primary"}>
+                      Approve Tokens
+                    </Button>
                     <Button
                       type={"primary"}
                       loading={buying}
                       onClick={async () => {
                         setBuying(true);
-                        await tx(writeContracts.Vendor.sellTokens(tokenSellAmount && ethers.utils.parseEther(tokenSellAmount)));
+                        await tx(
+                          writeContracts.Vendor.sellTokens(tokenSellAmount && ethers.utils.parseEther(tokenSellAmount)),
+                        );
                         setBuying(false);
                         setTokenSellAmount("");
                       }}
@@ -659,28 +664,36 @@ function App(props) {
                       Sell Tokens
                     </Button>
                   </div>
-                  :
+                ) : (
                   <div style={{ padding: 8 }}>
                     <Button
                       type={"primary"}
                       loading={buying}
                       onClick={async () => {
                         setBuying(true);
-                        await tx(writeContracts.YourToken.approve(readContracts.Vendor.address, tokenSellAmount && ethers.utils.parseEther(tokenSellAmount)));
+                        await tx(
+                          writeContracts.YourToken.approve(
+                            readContracts.Vendor.address,
+                            tokenSellAmount && ethers.utils.parseEther(tokenSellAmount),
+                          ),
+                        );
                         setBuying(false);
+                        let resetAmount = tokenSellAmount;
                         setTokenSellAmount("");
+                        setTimeout(() => {
+                          setTokenSellAmount(resetAmount);
+                        }, 1500);
                       }}
                     >
                       Approve Tokens
                     </Button>
+                    <Button disabled={true} type={"primary"}>
+                      Sell Tokens
+                    </Button>
                   </div>
-                }
-
-
+                )}
               </Card>
             </div>
-
-            */}
 
             <div style={{ padding: 8, marginTop: 32 }}>
               <div>Vendor Token Balance:</div>
@@ -696,7 +709,7 @@ function App(props) {
               <div>Buy Token Events:</div>
               <List
                 dataSource={buyTokensEvents}
-                renderItem={(item) => {
+                renderItem={item => {
                   return (
                     <List.Item key={item.blockNumber + item.blockHash}>
                       <Address value={item.args[0]} ensProvider={mainnetProvider} fontSize={16} /> paid
@@ -714,7 +727,7 @@ function App(props) {
               <div>Sell Token Events:</div>
               <List
                 dataSource={sellTokenEvents}
-                renderItem={(item) => {
+                renderItem={item => {
                   return (
                     <List.Item key={item.blockNumber + item.blockHash}>
                       <Address value={item.args[0]} ensProvider={mainnetProvider} fontSize={16} /> sold
@@ -729,8 +742,6 @@ function App(props) {
             </div>
 
             {/*
-
-
 
                 🎛 this scaffolding is full of commonly used components
                 this <Contract/> component will automatically parse your ABI

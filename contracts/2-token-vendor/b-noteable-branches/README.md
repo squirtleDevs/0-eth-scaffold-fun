@@ -115,7 +115,7 @@ await vendor.transferOwnership("**YOUR FRONTEND ADDRESS**");
 #### ⚔️ Side Quests
 
 - [x] Can _anyone_ withdraw? Test _everything_! ANSWER: Anyone means: attempt to withdraw from folks who aren't owner. Random burner accounts, the YourToken contract address, the vendor address. The withdraw() function checks who the msg.sender is and whether it is owner or not. So testing with other burners is really all you can do easily.
-- [x] What if you minted **2000** and only sent **1000** to the `Vendor`? ANSWER: I think that you'd just have an extra 1000 minted tokens sitting in the YourToken.sol contract, of which can be minted freely by anyone as it follows typical erc20 standards. Oh actually, they are minted and just stuck in the contract it seems. You would need a way to rescue your tokens (as seen in Yearn contracts and whatnot I think).
+- [x] What if you minted **2000** and only sent **1000** to the `Vendor`? ANSWER: I think that you'd just have an extra 1000 minted tokens sitting in the deployer's account. The tokens could be moved from that wallet accordingly. 
 
 ---
 

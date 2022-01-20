@@ -13,9 +13,8 @@ import "./ExampleExternalContract.sol";
  * NOTE: contract v1 currently is on Rinkeby testnet: <insert url>
  * NOTE: You need the Caller.sol address once deployed, and from there, you can use it in whatever function that creates the function hexstring and passes it via the global function call(). See Caller.sol contract.
  * NOTE: From Tweet: A quick jumping off point is building an “executor” smart contract that just .calls() anything the owner sends it. This will test your knowledge of calldata and you should go all the way to mainnet with it. 
- * TODO: clean this up as this is old code and I have a better understanding after convo with DK.
  */
- contract Executor is Ownable{
+contract Executor is Ownable{
     bytes32 passedCallData;
 
     /* ========== EVENTS ========== */

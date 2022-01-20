@@ -4,18 +4,21 @@ pragma solidity 0.8.4;
 
 import "hardhat/console.sol";
 import "./Executor.sol";
-import "./Test.sol";
+// import "./Test.sol";
 
 /**
  * @title Caller
  * @author Steve P.
- * @notice "Scaffold-ETH Challenge 3" as per https://twitter.com/austingriffith/status/1478760480965476352
+ * @notice is called upon by other contracts, where executor broadcasts tx to the network. Ref: "Scaffold-ETH Challenge 3" as per https://twitter.com/austingriffith/status/1478760480965476352
  * NOTE: contract v1 currently is on Rinkeby testnet: <insert url>
- * NOTE: From Tweet: A quick jumping off point is building an “executor” smart contract that just .calls() anything the owner sends it. This will test your knowledge of calldata and you should go all the way to mainnet with it. See NOTES.md for my thoughts on how to tackle this.
+ * NOTE: From Tweet: A quick jumping off point is building an “executor” smart contract that just .calls() anything the owner sends it. This will test your knowledge of calldata and you should go all the way to mainnet with it. 
+ * TODO: sort out my thoughts about this following conversation with DK and post a question or two within the telegram chat or elsewhere.
  */
 contract Caller is Executor {
     Executor executor;
-    Test test;
+    // Test test;
+    uint256 number;
+
 
     bytes32 passedCallData;
 
@@ -37,40 +40,36 @@ contract Caller is Executor {
 
     /* ========== MUTATIVE FUNCTIONS ========== */
 
-    /**
-     * @notice
-     */
-    function test1(bytes32 passedCallData) public {
-        exampleExternalContract.complete{ value: address(this).balance }();
-        bytes32 memory passedCallData = encodePacked(); // TODO: look up right way to do encodePacked and pass calldata.
-
-        // emit ExtCall();
-    }
-
-/**
- * @notice generate a hash for a msg call that a user or ext. contract can privately sign in signedHashedTx()
- * @param fnDetails is simply whatever you have to pass into the function to encode the correct hexString to carry out the respective function!
- */
-    function hashTx(string fnDetails) public returns (bytes fnHexString) {
-        //insert implementation code
-    }
-
-/**
- * @notice generate a signed tx hash to be passed into executor.sol calls()
- */
-    function signHashedTx(string fnDetails) public returns (bytes32 signature) {
-        bytes fnHexString = hashTX(fnDetails);
-        bytes32 signature = fnHexString;
-        return signature;
-        
-        // TODO: How do you privately sign a msg so you have a signature to be broadcast to EVM? --> One Hypothesis: You don't need implementation code to sign a tx! I think you generate a signed message simply by connecting your public address account to this contract, at this ext. contract address, and call this function (through the ABI)... since the scope of the variables are local to the function, no state changes. So you just get a mathematical proof of a privately signed piece of data (calldata) which you can pass along to be executed and broadcast to the network if you actually want to change the state!
-    }
 
     /**
-     * @notice
+     * @dev Return value 
+     * @return value of 'number'
      */
-     function passHash(string fnDetails) public returns (bool success) {
-         bytes32 signature = signHashedTx(fnDetails);
-         
-     }
+    function retrieve() public view returns (uint256){
+        return number;
+    }
+
+        /**
+     * @dev Store value in variable
+     * @param num value to store
+     */
+    function store(uint256 num) public {
+        number = num;
+    }
+
+    // generate signature (signed tx) in passable format to use with call()
+    // @parameter fnDetails to be store(uint256)... unless we can pass in arbitrary contract addresses and their functions and their parameters. I guess, like Manifold, we could create new contracts that end up inheriting executor.sol. They then can conduct whatever crazy functions they want, and then simply use the executor contract (it doesn't even need to be inherited) to carry out the broadcast of the state changes (txs).
+    // The executor would whitelist what contracts can call it through the use of a mapping. Hmm, how would that work though? I'm confused because it seems that call{}() can be used on any contract, and any contract can be used as a proxy contract. That can't be true though, it's a security issue. Can you lock off call(). Last question for dave if ppl don't answer in telegram.
+    
+    // Could do some fancy gas efficient stuff with doing mapping(uint=>uint) instead of addresses, but doesn't matter for this exercise.
+    function hash(string memory fnDetails, uint256 num) public view returns (bytes memory signedHash) {
+        bytes memory hexString = abi.encodeWithSignature(fnDetails, num); //you  need to be able to have the respective contract functions in the abi that this contract can access. I think there is a way to instantiate new external contracts so their ABIs are exposed... without inheritance or importing.
+        return hexString;
+    }
+
+    // simply passes signature to executor contract to broadcast to the network
+    function calls(address executorContract, bytes memory signature) public payable  {
+        executorContract.call(signature); 
+    }
+
 }

@@ -5,6 +5,29 @@ Second: Try building a signature based multisig: https://github.com/scaffold-eth
 
 ---
 
+## TODO:
+
+- [ ] Outline smart contract and function details within an interface
+- [ ] Review interface with actual solidity by example and compare
+- [ ] Review design spec for the multi-sigs as per the challenge (streaming, non-streaming, signature-based)
+- [ ] Go through the github repo from past challenge write-up; see the README.md and add to what you think should be added so far. Add to it as you go afterwards.
+- [ ] Write the multisig contracts finally
+- [ ] Get the front-end to work with the multisigs
+- [ ] Deploy, finalize README.md
+- [ ] Work on streaming multi-sig as feature-branch.
+- [ ] Write new article for it to show how to make it extending off of the last multisig contract
+
+---
+
+## TODO: Research to Check Out
+
+After reviewing †he design spec again:
+
+- My old erc721middleman code for how to use hashing functions with ethersJS
+  https://github.com/umphams/erc721Middleman/blob/c3ee1f432c13b598657eaf8aad4a67e34b03d597/test/helpers.test.js#L58
+- Reading up on hashing functions with ethersJS and how it would work with the multisig --> we would need to generate function hashes offline to pass into the multisig! https://docs.ethers.io/v5/api/utils/hashing/
+- https://stackoverflow.com/questions/69127399/how-to-call-external-contract-with-abi-encodewithsignature-with-no-arguments
+
 Project 4a: Simple Multisig from Solidity by Example
 
 👛 Next, build your own multisig using this as a reference: https://solidity-by-example.org/app/multi-sig-wallet/

@@ -7,7 +7,8 @@ use(solidity);
 /**
  * @notice auto-grading tests for simpleDEX challenge
  * Stages of testing are as follows: set up global test variables, test contract deployment, deploy contracts in beforeEach(), then actually test out each separate function.
- *
+ * @dev this is still a rough WIP. See TODO: scattered throughout.'
+ * @dev additional TODO: Write edge cases; putting in zero as inputs, or whatever.
  */
 describe("🚩 Challenge 3: ⚖️ 🪙 Simple DEX", function () {
   this.timeout(45000);
@@ -40,9 +41,6 @@ describe("🚩 Challenge 3: ⚖️ 🪙 Simple DEX", function () {
     setTimeout(done, 2000);
   });
 
-  // test that contracts actually deploy properly. We need BALLOONs to be deployed first, then DEX based off of BALLOONs.'
-  // if it can't find the DEX contract, that means that BALLOONs hasn't been deployed, so it will have deploy BALLOONs first, then deploy DEX.
-
   describe("DEX: Standard Path", function () {
     // 1st check if DEX contract already deployed, otherwise balloons needs to be deployed! TODO: have to figure out what account is the deployer if the challenger submits with a .env file!
     if (process.env.CONTRACT_ADDRESS) {
@@ -62,7 +60,7 @@ describe("🚩 Challenge 3: ⚖️ 🪙 Simple DEX", function () {
     }
 
     // see if initial setup works, should have 1000 balloons in totalSupply, and 5 balloons + 5 ETH within DEX. This set up will be used continuously afterwards for nested function tests.
-    // Also need to test that the other functions do not work if we try calling them without init() started.
+    // TODO: Also need to test that the other functions do not work if we try calling them without init() started.
     describe("init()", function () {
       it("Should set up DEX with 5 balloons at start", async function () {
         let tx1 = await balloonsContract
@@ -85,6 +83,7 @@ describe("🚩 Challenge 3: ⚖️ 🪙 Simple DEX", function () {
         // await expect(tx3).revertedWith("DEX: init - already has liquidity");
         // await expect(tx3).to.be.reverted;
       });
+
       describe("ethToToken()", function () {
         it("Should send 1 Ether to DEX in exchange for _ $BAL", async function () {
           let tx1 = await dexContract.connect(deployer.signer).ethToToken({
@@ -92,17 +91,58 @@ describe("🚩 Challenge 3: ⚖️ 🪙 Simple DEX", function () {
           });
           // TODO: Figure out how to read eth balance of dex contract and to compare it against the eth sent in via this tx. Also figure out why/how to read the event that should be emitted with this too.
 
-          // expect(
-          //   // Attempt 1: await ethers.BigNumber.from(
-          //   // Attempt 2: ethers.utils.parseEther(dexContract.address.balance())
-          //   // Attempt 3: await Provider.getBalance(dexContract.address)
-          // ).to.equal(ethers.utils.parseEther("6"));
+          expect(await ethers.BigNumber.from(dexContract.address.balance)).to.equal(ethers.utils.parseEther("6"));
 
-          // await expect(tx1).emit(dexContract, "EthToTokenSwap");
-          // .withArgs(user2.address, __, ethers.utils.parseEther("1"));
+          // await expect(tx1)
+          //   .emit(dexContract, "EthToTokenSwap")
+          //   .withArgs(user2.address, __, ethers.utils.parseEther("1"));
         });
 
-        it("", async function () {});
+        it("Should send less tokens after the first trade (ethToToken called)", async function () {
+          await dexContract.connect(deployer.signer).ethToToken({
+            value: ethers.utils.parseEther("1"),
+          });
+          let tx1 = dexContract.connect(user2.signer).ethToToken({
+            value: ethers.utils.parseEther("1"),
+          });
+          // expect(tx1).emit(dexContract, "EthToTokenSwap").withArgs(user2.address, __, ethers.utils.parseEther("1"));
+        });
+        // could insert more tests to show the declining price, and what happens when the pool becomes very imbalanced.
+      });
+      describe("tokenToEth", async () => {
+        it("Should send 1 $BAL to DEX in exchange for _ $ETH", async function () {
+          let tx1 = await dexContract.connect(deployer.signer).tokenToEth(ethers.utils.parseEther("1"));
+
+          //TODO: write an expect that takes into account the emitted event from tokenToETH.
+        });
+
+        it("Should send less tokens after the first trade (tokenToEach() called)", async function () {
+          await dexContract.connect(deployer.signer).tokenToEth(ethers.utils.parseEther("1"));
+          let tx1 = await dexContract.connect(deployer.signer).tokenToEth(ethers.utils.parseEther("1"));
+
+          //TODO: write an expect that takes into account the emitted event from tokenToETH.
+        });
+      });
+
+      describe("deposit", async () => {
+        it("Should deposit 1 ETH and 1 $BAL when pool at 1:1 ratio", async function () {
+          let tx1 = await dexContract.connect(deployer.signer).deposit(
+            (ethers.utils.parseEther("5"),
+            {
+              value: ethers.utils.parseEther("5"),
+            })
+          );
+          // TODO: Write expect() assessing changed liquidty within the pool. Should have an emitted event!
+        });
+      });
+
+      // pool should have 5:5 ETH:$BAL ratio
+      describe("withdraw", async () => {
+        it("Should withdraw 1 ETH and 1 $BAL when pool at 1:1 ratio", async function () {
+          let tx1 = await dexContract.connect(deployer.signer).withdraw(ethers.utils.parseEther("1"));
+
+          // TODO: Write expect() assessing changed liquidty within the pool. Should have an emitted event!
+        });
       });
     });
   });

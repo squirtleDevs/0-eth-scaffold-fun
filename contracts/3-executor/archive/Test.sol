@@ -16,8 +16,6 @@ import "./ExampleExternalContract.sol";
 contract Test {
     bytes32 passedCallData;
 
-    
-
     /* ========== VIEWS ========== */
 
     /**

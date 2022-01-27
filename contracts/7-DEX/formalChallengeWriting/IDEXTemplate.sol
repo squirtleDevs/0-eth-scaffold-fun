@@ -46,7 +46,4 @@ interface IDEX {
      * @notice allows withdrawal of $BAL and $ETH from liquidity pool
      */
     function withdraw(uint256 amount) public returns (uint256 eth_amount, uint256 token_amount);
-
-    
 }
-

@@ -45,11 +45,11 @@ export default function Curve(props) {
       const maxY = (maxX * height) / width;
       const minY = (minX * height) / width;
 
-      const plotX = x => {
+      const plotX = (x) => {
         return ((x - minX) / (maxX - minX)) * width;
       };
 
-      const plotY = y => {
+      const plotY = (y) => {
         return height - ((y - minY) / (maxY - minY)) * height;
       };
       ctx.strokeStyle = "#000000";
@@ -98,14 +98,14 @@ export default function Curve(props) {
           plotX(props.ethReserve),
           plotY(props.tokenReserve),
           plotX(newEthReserve),
-          plotY(props.tokenReserve),
+          plotY(props.tokenReserve)
         );
 
         ctx.fillStyle = "#000000";
         ctx.fillText(
           "" + props.addingEth + " ETH input",
           plotX(props.ethReserve) + textSize,
-          plotY(props.tokenReserve) - textSize,
+          plotY(props.tokenReserve) - textSize
         );
 
         ctx.strokeStyle = "#990000";
@@ -116,7 +116,7 @@ export default function Curve(props) {
         ctx.fillText(
           "" + amountGained + " 🎈 output (-0.3% fee)",
           plotX(newEthReserve) + textSize,
-          plotY(k / newEthReserve),
+          plotY(k / newEthReserve)
         );
       } else if (props.addingToken) {
         let newTokenReserve = props.tokenReserve + parseFloat(props.addingToken);
@@ -133,14 +133,14 @@ export default function Curve(props) {
           plotX(props.ethReserve),
           plotY(props.tokenReserve),
           plotX(props.ethReserve),
-          plotY(newTokenReserve),
+          plotY(newTokenReserve)
         );
 
         ctx.fillStyle = "#000000";
         ctx.fillText(
           "" + props.addingToken + " 🎈 input",
           plotX(props.ethReserve) + textSize,
-          plotY(props.tokenReserve),
+          plotY(props.tokenReserve)
         );
 
         ctx.strokeStyle = "#009900";
@@ -149,7 +149,7 @@ export default function Curve(props) {
           plotX(props.ethReserve),
           plotY(newTokenReserve),
           plotX(k / newTokenReserve),
-          plotY(newTokenReserve),
+          plotY(newTokenReserve)
         );
 
         let amountGained = Math.round((10000 * (props.addingToken * props.ethReserve)) / newTokenReserve) / 10000;
@@ -158,7 +158,7 @@ export default function Curve(props) {
         ctx.fillText(
           "" + amountGained + " ETH output (-0.3% fee)",
           plotX(k / newTokenReserve) + textSize,
-          plotY(newTokenReserve) - textSize,
+          plotY(newTokenReserve) - textSize
         );
       }
 

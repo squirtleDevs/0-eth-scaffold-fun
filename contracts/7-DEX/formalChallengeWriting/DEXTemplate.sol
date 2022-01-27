@@ -11,13 +11,11 @@ import "@openzeppelin/contracts/utils/math/SafeMath.sol";
  * @dev We want to create an automatic market where our contract will hold reserves of both ETH and 🎈 Balloons. These reserves will provide liquidity that allows anyone to swap between the assets.
  */
 contract DEX {
-    
     /* ========== GLOBAL VARIABLES ========== */
-
 
     using SafeMath for uint256; //outlines use of SafeMath for uint256 variables
     IERC20 token; //instantiates the imported contract
-    
+
     /* ========== EVENTS ========== */
 
     /**
@@ -33,23 +31,19 @@ contract DEX {
     /**
      * @notice Emitted when liquidity provided to DEX
      */
-    event LiquidityProvided(
-        
-    );
+    event LiquidityProvided();
 
     /**
      * @notice Emitted when liquidity removed from DEX
      */
-    event LiquidityRemoved(
-        
-    );
+    event LiquidityRemoved();
 
     /* ========== CONSTRUCTOR ========== */
 
     constructor(address token_addr) public {
         token = IERC20(token_addr); //specifies the token address that will hook into the interface and be used through the variable 'token'
     }
-    
+
     /* ========== MUTATIVE FUNCTIONS ========== */
 
     /**
@@ -79,18 +73,15 @@ contract DEX {
      * @notice sends $BAL tokens to DEX in exchange for Ether
      */
     function tokenToEth(uint256 tokenInput) public returns (uint256 ethOutput) {}
-    
+
     /**
      * @notice allows deposits of $BAL and $ETH to liquidity pool
      * NOTE: Ratio needs to be maintained.
      */
-    function deposit() public payable returns (uint256 tokensDeposited) {
-    }
+    function deposit() public payable returns (uint256 tokensDeposited) {}
 
     /**
      * @notice allows withdrawal of $BAL and $ETH from liquidity pool
      */
-    function withdraw(uint256 amount) public returns (uint256 eth_amount, uint256 token_amount) {
-    }
-    
+    function withdraw(uint256 amount) public returns (uint256 eth_amount, uint256 token_amount) {}
 }

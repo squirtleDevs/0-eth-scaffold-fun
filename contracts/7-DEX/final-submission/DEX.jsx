@@ -40,7 +40,7 @@ export default function Dex(props) {
         <Col span={16}>
           <div style={{ cursor: "pointer", margin: 2 }}>
             <Input
-              onChange={e => {
+              onChange={(e) => {
                 let newValues = { ...values };
                 newValues[title] = e.target.value;
                 setValues(newValues);
@@ -69,18 +69,18 @@ export default function Dex(props) {
   if (props.readContracts && props.readContracts[contractName]) {
     display.push(
       <div>
-        {rowForm("ethToToken", "💸", async value => {
+        {rowForm("ethToToken", "💸", async (value) => {
           let valueInEther = ethers.utils.parseEther("" + value);
           let swapEthToTokenResult = await tx(writeContracts[contractName]["ethToToken"]({ value: valueInEther }));
           console.log("swapEthToTokenResult:", swapEthToTokenResult);
         })}
 
-        {rowForm("tokenToEth", "🔏", async value => {
+        {rowForm("tokenToEth", "🔏", async (value) => {
           let valueInEther = ethers.utils.parseEther("" + value);
           console.log("valueInEther", valueInEther);
           let allowance = await props.readContracts[tokenName].allowance(
             props.address,
-            props.readContracts[contractName].address,
+            props.readContracts[contractName].address
           );
           console.log("allowance", allowance);
 
@@ -89,7 +89,7 @@ export default function Dex(props) {
             approveTx = await tx(
               writeContracts[tokenName].approve(props.readContracts[contractName].address, valueInEther, {
                 gasLimit: 200000,
-              }),
+              })
             );
           }
 
@@ -105,31 +105,31 @@ export default function Dex(props) {
 
         <Divider> Liquidity ({liquidity ? ethers.utils.formatEther(liquidity) : "none"}):</Divider>
 
-        {rowForm("deposit", "📥", async value => {
+        {rowForm("deposit", "📥", async (value) => {
           let valueInEther = ethers.utils.parseEther("" + value);
           let valuePlusExtra = ethers.utils.parseEther("" + value * 1.03);
           console.log("valuePlusExtra", valuePlusExtra);
           let allowance = await props.readContracts[tokenName].allowance(
             props.address,
-            props.readContracts[contractName].address,
+            props.readContracts[contractName].address
           );
           console.log("allowance", allowance);
           if (allowance.lt(valuePlusExtra)) {
             await tx(
               writeContracts[tokenName].approve(props.readContracts[contractName].address, valuePlusExtra, {
                 gasLimit: 200000,
-              }),
+              })
             );
           }
           await tx(writeContracts[contractName]["deposit"]({ value: valueInEther, gasLimit: 200000 }));
         })}
 
-        {rowForm("withdraw", "📤", async value => {
+        {rowForm("withdraw", "📤", async (value) => {
           let valueInEther = ethers.utils.parseEther("" + value);
           let withdrawTxResult = await tx(writeContracts[contractName]["withdraw"](valueInEther));
           console.log("withdrawTxResult:", withdrawTxResult);
         })}
-      </div>,
+      </div>
     );
   }
 

@@ -4,23 +4,22 @@ pragma solidity >=0.7.0 <0.9.0;
 
 /**
  * @title Example
- * @notice Example.sol is supposed to showcase how one can use `abi.encodeWithSignature()` to generate a hash that 
+ * @notice Example.sol is supposed to showcase how one can use `abi.encodeWithSignature()` to generate a hash that
  * can be passed into `<address>.call{value}(calldata)` as seen in `calls()`
  * @dev Store & retrieve value in a variable
  */
 contract Example {
-
     uint256 number;
 
     /**
-     * @dev Return value 
+     * @dev Return value
      * @return value of 'number'
      */
-    function retrieve() public view returns (uint256){
+    function retrieve() public view returns (uint256) {
         return number;
     }
 
-        /**
+    /**
      * @dev Store value in variable
      * @param num value to store
      */
@@ -36,7 +35,7 @@ contract Example {
     }
 
     // execute signed tx signature using global function .call()
-    function calls(bytes memory signature) public payable  {
-        msg.sender.call{value: msg.value}(signature);
+    function calls(bytes memory signature) public payable {
+        msg.sender.call{ value: msg.value }(signature);
     }
 }

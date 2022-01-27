@@ -223,7 +223,7 @@ function App(props) {
     const provider = await web3Modal.connect();
     setInjectedProvider(new ethers.providers.Web3Provider(provider));
 
-    provider.on("chainChanged", chainId => {
+    provider.on("chainChanged", (chainId) => {
       console.log(`chain changed to ${chainId}! updating providers`);
       setInjectedProvider(new ethers.providers.Web3Provider(provider));
     });
@@ -345,7 +345,7 @@ function App(props) {
             <div>👀 DEX Events:</div>
             <List
               dataSource={EthToTokenSwapEvents}
-              renderItem={item => {
+              renderItem={(item) => {
                 return (
                   <List.Item key={item.blockNumber}>
                     <Address value={item.args[0]} ensProvider={localProvider} fontSize={16} />

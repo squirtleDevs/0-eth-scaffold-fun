@@ -972,7 +972,7 @@ contract Cryptogs is NFT, Ownable {
         receiver.onTransferStack(msg.sender, _token1, _token2, _token3, _token4, _token5, _data);
     }
 
-/**
+    /**
      * @notice
      */
     function isContract(address _addr) private returns (bool hasCode) {

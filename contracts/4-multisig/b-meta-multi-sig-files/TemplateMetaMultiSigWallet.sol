@@ -1,23 +1,17 @@
 // SPDX-License-Identifier: MIT
 
-//  Off-chain signature gathering multisig that streams funds - @austingriffith
-//
-// started from 🏗 scaffold-eth - meta-multi-sig-wallet example https://github.com/austintgriffith/scaffold-eth/tree/meta-multi-sig
-//    (off-chain signature based multi-sig)
-//  added a very simple streaming mechanism where `onlySelf` can open a withdraw-based stream
-//
-
 pragma solidity >=0.8.0 <0.9.0;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 
 /**
- * @title MetaMultiSigWallet
- * @notice Empty contract that just outlines what features could be part of the challenge (up to you!)
+ * @title MetaMultiSigWallet - originally made by @austingriffith
+ * @notice Empty contract that just outlines what functions are part of this contract when it is fully implemented. The functions work with the respective react tie-ins for the front-end visualization. If you would like to try your hand at creating the smart contracts on your own, you can use this as a starting template!
  * @dev This contract creates a single multi-sig wallet.
  */
 contract MetaMultiSigWallet {
+    
     /* ========== GLOBAL VARIABLES ========== */
     using ECDSA for bytes32;
 
@@ -29,12 +23,12 @@ contract MetaMultiSigWallet {
     /* ========== EVENTS ========== */
 
     /**
-     * @notice Emitted when
+     * @notice Emitted when ether is sent to this contract
      */
     event Deposit(address indexed sender, uint256 amount, uint256 balance);
 
     /**
-     * @notice Emitted when
+     * @notice Emitted when a transaction is executed by this contract based on a successful vote
      */
     event ExecuteTransaction(
         address indexed owner,
@@ -47,7 +41,7 @@ contract MetaMultiSigWallet {
     );
 
     /**
-     * @notice Emitted when
+     * @notice Emitted when funds are transferred from this contract as per a successfully voted-on executeTransaction() since only this contract can call transferFunds()
      */
     event TransferFunds(address indexed reciever, uint256 value);
 
@@ -106,9 +100,7 @@ contract MetaMultiSigWallet {
     function updateSignaturesRequired(uint256 newSignaturesRequired) public onlySelf {}
 
     /**
-     * @notice returns transaction hash to be stored in backend (off-chain) to be voted on by signers
-     * @param _nonce is for the contract, it increments in executeTransaction. Since we're using call(){}, I think that means that it counts as an ext. tx even if it is calling itself? See this for how contract nonces work: https://ethereum.stackexchange.com/questions/764/do-contracts-also-have-a-nonce
-     * TODO: look up duplicateGuard --> oh I think this is so votes aren't double counted. Not sure how they could get out of order.
+     * @notice returns transaction hash used to verify public address belongs to a signer within executeTransaction(). Can also be used to return transaction hash to be stored in backend (off-chain) to be voted on by signers
      */
     function getTransactionHash(
         uint256 _nonce,

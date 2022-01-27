@@ -20,6 +20,66 @@
 
 ## 🚩 **Challenge 4: Meta Multi Sig Wallet**
 
+## 👇🏼 Quick Break-Down 👛
+
+This is a smart contract that acts as an off-chain signature-based shared wallet amongst different signers that showcases use of meta-transaction knowledge and ECDSA `recover()`. **If you are looking for the challenge, go to the challenges repo within scaffold-eth!**
+
+> If you are unfamiliar with these concepts, check out all the [ETH.BUILD videos](https://www.youtube.com/watch?v=CbbcISQvy1E&ab_channel=AustinGriffith) by Austin Griffith, especially the Meta Transactions one!
+
+At a high-level, the contract core functions are carried out as follows:
+
+**Off-chain: ⛓🙅🏻‍♂️** - Generation of a packed hash (bytes32) for a function call with specific parameters through a public view function . - It is signed by one of the signers associated to the multisig, and added to an array of signatures (`bytes[] memory signatures`)
+
+**On-Chain: ⛓🙆🏻‍♂️**
+
+- `bytes[] memory signatures` is then passed into `executeTransaction` as well as the necessary info to use `recover()` to obtain the public address that ought to line up with one of the signers of the wallet.
+  - This method, plus some conditional logic to avoid any duplicate entries from a single signer, is how votes for a specific transaction (hashed tx) are assessed.
+- If it's a success, the tx is passed to the `call(){}` function of the deployed MetaMultiSigWallet contract (this contract), thereby passing the `onlySelf` modifier for any possible calls to internal txs such as (`addSigner()`,`removeSigner()`,`transferFunds()`,`updateSignaturesRequried()`).
+
+**Cool Stuff that is Showcased: 😎**
+
+- NOTE: Showcases how the `call(){}` function is an external call that ought to increase the nonce of an external contract, as [they increment differently](https://ethereum.stackexchange.com/questions/764/do-contracts-also-have-a-nonce) from user accounts.
+- Normal internal functions, such as changing the signers, and adding or removing signers, are treated as external function calls when `call()` is used with the respective transaction hash.
+- Showcases use of an array (see constructor) populating a mapping to store pertinent information within the deployed smart contract storage location within the EVM in a more efficient manner.
+
+<details markdown='1'><summary>👨🏻‍🏫 Challenge TODO </summary>
+
+# Challenge TODOs From Austin:
+
+Welcome to the 👛multisig cohort of the SpeedRunEthereum.com challenges!
+
+You know how to build a basic dapp with a smart contract, you’ve tackled the DEX…
+
+This ⛳ challenge is to create your own multisig and deploy it to a live network with a frontend.
+
+🤔 I would grab a master branch of 🏗scaffold-eth and then cherry pick from this branch: https://github.com/scaffold-eth/scaffold-eth-examples/tree/meta-multi-sig
+
+🚸 WARNING: there are some weird things in this branch that you don’t need like the transferFunds (instead of just sending value in the call) So the UI even has some extra weirdness.
+
+⚽️ GOALS 🥅
+
+[ ] can you edit and deploy the contract with a 2/3 multisig with two of your addresses and the buidlguidl multisig as the third signer? (buidlguidl.eth is like your backup recovery.) // 🙆🏻‍♂️ Answer: constructor can outline the signatures that are part of the multisig, as well as the signaturesRequired variable.
+
+[ ] can you propose basic transactions with the frontend that sends them to the backend? // 🙆🏻‍♂️ Answer: get encodePacked function calls using the hashFunction() [so tie that to the front end from the smart contract], then take those hashes and send them to the backend where they'll reside in a pool. Those functions will be privately signed off-chain in the backend. Front end prompts users to sign them, user signs them, then a signature is stored in the backend data array bytes[].
+
+[ ] can you “vote” on the transaction as other signers? // 🙆🏻‍♂️ Answer: Yes, if you have the private keys to the signer account. You would sign the tx on the front-end, talking to the backend that has the tx hash, which generates a signature and pushes it to a bytes[] in the backend to be pushed to the smart contracts when calling executeTransaction().
+
+[ ] can you execute the transaction and does it do the right thing? // 🙆🏻‍♂️ Answer: As long as it has the votes and the right inputs! Be careful about nonces.
+
+[ ] can you add and remove signers with a custom dialog (that just sends you to the create transaction dialog with the correct calldata) // 🙆🏻‍♂️ Answer: Add buttons in the front-end for add-signer and remove-signer. Have those tie back to either a back-end or the smart contract ABI where it can get the function call hash as a bytes32 variable with the specific parameters of `add-signer()`, `remove-signer()`, `updateSignaturesRequired()`.
+
+[ ] BONUS: for contributing back to the challenges and making components out of these UI elements that can go back to master or be forked to make a formal challenge // 🙆🏻‍♂️ Answer: so create component files for this challenge that can be used!
+
+[ ] BONUS: multisig as a service! Create a deploy button with a copy paste dialog for sharing so _anyone_ can make a multisig at your url with your frontend // 🙆🏻‍♂️ Answer: Create a front-end component that ties to the `constructor()` of the `MultiSig.sol` contract
+
+[ ] BONUS: testing lol // 🙆🏻‍♂️ Answer: Autograding test file that only covers the main function requirements outlined by this challenge.s
+
+🧪 This build will require a good knowledge of signed messages and you can get a refresher here: https://github.com/scaffold-eth/scaffold-eth-examples/tree/signature-recover
+
+🧫 This build also doubles as a DAO starter kit and it will teach you how to better protect your own funds!
+
+</details>
+
 # Writing the Smart Contracts
 
 This challenge will help you build/understand a mult-sig wallet. This repo is an updated version of the [original tutorial](https://github.com/scaffold-eth/scaffold-eth-examples/blob/meta-multi-sig/README.md) and challenge repos before it. Please read the intro for a background on what we are building first! **This repo has solutions in it for now, but the challenge is to write the smart contracts yourself of course!**

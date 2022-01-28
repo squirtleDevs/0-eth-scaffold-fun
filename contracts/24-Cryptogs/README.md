@@ -30,6 +30,8 @@ SlammerTime.sol and Cryptogs.sol were the core contracts. See the reference fold
 
 ## Contract Break-Down (High Level)
 
+### Cryptogs Game
+
 GAMEPLAY:
 
 - Two users present their stack of Cryptogs for game.
@@ -64,17 +66,74 @@ cancelStack(bytes32 \_stack)
 
 cancelCounterStack()
 
-- kind of self explanatory
-  TODO: expalin it though
+- deletes stacks[_counterstack], which is the record of counterStack struct
+- deletes stackCounter[_counterstack], which is record of the challenge to player 1.
+
+GAME ON: Third tx
 
 acceptCounterStack()
 
--
--
+- Checks that the hexStrings align the proper players and stack details.
+- Calls on slammerTime to `startSlammerTime()` with parameters of the game (player 1, player 1 struct cryptog ids, player 2 according to counterStack mapping, player 2 cryptogs ids according to counterStack mapping )
+- TODO: what is up with the block.number for timeout? and lastActor[_stack]
+- TODO: why is counterOfStack[_stack] needed? --> looks like it comes up in coin flip later.
+- Populates mixedStack mapping of hash pointing to uint256 representing in-game id of cryptog. TODO: pay close attention to the ids here. Also not sure if all the implementation code they wrote is the most efficient lol.
+- emits AcceptCounterStack for front end to notify user of starting the game.
 
+getMixedStack() is just a view function.
+
+- NOTE: stacks(bytes => Stack) are only for player 1s!
+
+Fourth tx:
+
+starCoinFlip():
+
+- TODO: where does \_commit (bytes32) come from??
+- TODO: it seems that there are a lot of requires here, more than needed but need to check.
+- commitBlock(bytes=>uint32) is a typecast of uint32 on the block.number
+- increment to mode 2.
+- TODO: Outline and think out the timeout necessary, and thus how to use commitBlock, timeout, lastBlock, lastActor. --> see comment in OG contracts. I think that we ensure that lastBlock is updated and lastActor is updated to ensure that we are moving with the blockchain in terms of on-chain txs that record the game details.
+
+Fifth tx:
+
+endCoinFlip()
+
+- TODO: where does bytes32 \_reveal come from?
+- block stuff: makes sure that uint32(block.number) > commitBlock[_stack] --> OK this is just to ensure that we're ahead in the blockchain I think.
+  **- This is where the whole commit/reveal sequence starts to show. TODO: research this.**
+- Let's go down the successful coin flip route;
+- increment mode, increment round[_stack]
+- I think this is the reveal/commit key:
+  `bytes32 pseudoRandomHash = keccak256(_reveal, block.blockhash(commitBlock[_stack]));`
+- decides who goes first in raiseSlammer().
+
+Sixth tx:
+
+raiseSlammer()
+
+-
 - FLIPPINESS:
 
 - BONUS:
+
+---
+
+### SlammerTime
+
+startSlammerTime():
+
+- only the game contract can call this function.
+- instantiates the game contract locally in the function to access its methods.
+- approvals of transfers have been already made by game contract and users for SlammerTime to take the tokens as escrow. SlammerTime carries out the transfer of all tokens in that game using 2 for-loops.
+- returns boolean signifying transfer complete.
+
+transferBack():
+
+- Activated during several parts of gameplay where the cryptogs are sent back to the proper owners depending on gameplay results.
+
+#### Ideas for SlammerTime
+
+- Incorporate a function that whitelists the game contract or vice versa. Have to think about the architecture. Note that the OG contracts instantiated the contracts, essentially the version of importing contracts back then I think.
 
 ### Future Ideas:
 

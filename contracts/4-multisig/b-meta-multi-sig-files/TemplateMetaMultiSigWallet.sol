@@ -11,7 +11,6 @@ import "@openzeppelin/contracts/utils/math/SafeMath.sol";
  * @dev This contract creates a single multi-sig wallet.
  */
 contract MetaMultiSigWallet {
-    
     /* ========== GLOBAL VARIABLES ========== */
     using ECDSA for bytes32;
 

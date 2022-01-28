@@ -32,12 +32,8 @@ contract Cryptogs is NFT, Ownable {
     uint8 public constant BLOCKSUNTILCLEANUPSTACK = 1;
 
     string public ipfs;
+        address public slammerTime;
 
-    function setIpfs(string _ipfs) public onlyOwner returns (bool) {
-        ipfs = _ipfs;
-        IPFS(ipfs);
-        return true;
-    }
 
     //perhaps some are harder to flip over?
     //perhaps some have magical metadata?
@@ -224,13 +220,20 @@ contract Cryptogs is NFT, Ownable {
     /**
      * @notice
      */
+    function setIpfs(string _ipfs) public onlyOwner returns (bool) {
+        ipfs = _ipfs;
+        IPFS(ipfs);
+        return true;
+    }
+
+    /**
+     * @notice
+     */
     function Cryptogs() public {
         //0 index should be a blank item owned by no one
         Item memory _item = Item({ image: "" });
         items.push(_item);
     }
-
-    address public slammerTime;
 
     /**
      * @notice
@@ -412,7 +415,7 @@ contract Cryptogs is NFT, Ownable {
     //tx 1: of a game, player one approves the SlammerTime contract to take their tokens
     //this triggers an event to broadcast to other players that there is an open challenge
     /**
-     * @notice
+     * @notice 
      */
     function submitStack(
         uint256 _id,

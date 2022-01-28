@@ -6,6 +6,7 @@ pragma solidity ^0.8.4;
  * Interface of the CryptogsGame contract where users can use erc1155 Cryptogs (v2) and play for keeps!
  */
 interface ICryptogsGame {
+    
     /* ========== EVENTS ========== */
 
     /**

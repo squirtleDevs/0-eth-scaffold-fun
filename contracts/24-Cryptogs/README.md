@@ -30,11 +30,17 @@ SlammerTime.sol and Cryptogs.sol were the core contracts. See the reference fold
 
 ## Contract Break-Down (High Level)
 
+### Minting of Cryptogs
+
+OG contracts minted them in the same contract as the game, in packs. There are two public functions, both onlyOwner, that can be used to mint packs: mintPack() and mintBatch(). These tokens are minted, where they are given an ID aligning with Item[] items. So each element within the Item[] array contains a unique erc721 with its data stored in a struct Item. The only thing stored in the Item struct seems to be bytes32 image. Rarity is kept track of through mapping(bytes32 => uint256) public tokensOfImage, where bytes32 represents the image of the respective erc721.
+
+- mintBatch() looks like it is only used when the owner of the contract is gifting or airdropping batches to folks.
+
 ### Cryptogs Game
 
 GAMEPLAY:
 
-- Two users present their stack of Cryptogs for game.
+- Two users present their stack of Cryptogs for game. They were dealing with erc721s (in a less standardized way it seems). erc721s were
 
 First tx:
 
@@ -111,6 +117,23 @@ Sixth tx:
 
 raiseSlammer()
 
+- checks who's turn it is.
+- makes sure we're in mode 3
+- assigns commit to \_commit.
+- rewrites commitBlock[_stack]
+
+7th tx:
+throwSlammer()
+
+- check who's turn it is.
+- change mode to 4
+- make sure we're in the next block past commitBlock
+- instantiate local var uint256[10] memory flipped that will keep track of which token is flipped in mixedStack
+- if reveal/commit don't match up then we're going to be returned to slammer raise. Front end needs to line up with this.
+- if successful reveal/commit, then we finally play and check what flipped in this round!
+- We also assign the lastActor and lastBlock variables so the other player will be able to raise and throw slammer after this turn if there are remaining Cryptogs.
+- implements the conditional logic to assess if a flip occurs or not. If a flip does occur, then slammerTime function transferBack() is called and the respective Cryptogs are sent to the msg.sender!
+
 -
 - FLIPPINESS:
 
@@ -131,9 +154,19 @@ transferBack():
 
 - Activated during several parts of gameplay where the cryptogs are sent back to the proper owners depending on gameplay results.
 
+## Ideas for EthDenver
+
+### Minting
+
+- If we are using erc1155s now, then we have numerous varieties of Crytogs, with their own general ID. That general ID correlates with its index in the library of different types of Cryptogs available. The key difference between using erc721s and erc1155s in terms of unique ownership is that a user does not own a specific ID of a respective NFT collection. They instead own one token of many of the same tokens of a collection. So if Bob and Allice both owned Cryptog Bellsprout, then they would not have unique IDs for their NFTs. Imagine Vitalik, Satoshi, and Andre Cronje came along and had Cryptog Charizards, those would have a different index ID, but again none of them would have unique IDs for each respective Charizard. Contrary to belief, all Charizards are equal.
+
+### Gameplay
+
 #### Ideas for SlammerTime
 
 - Incorporate a function that whitelists the game contract or vice versa. Have to think about the architecture. Note that the OG contracts instantiated the contracts, essentially the version of importing contracts back then I think.
+- Can we create pirvate functions or roll the functions of raise and throw slammer into one function? Why do they need to be separate?
+- Also think we can deploy CoinFlip into another contract just to reduce the length of this thing. --> it would implement the commit/reveal aspects of the code.
 
 ### Future Ideas:
 

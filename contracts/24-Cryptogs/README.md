@@ -1,14 +1,82 @@
 # Notes
 
-This is a breakdown of the smart contracts that make up CRYPTOGS.
+This is a breakdown of the smart contracts that make up CRYPTOGS. Section 1 is focused on the MVP that will be launched for EthDenver with POAPathon. It is important to outline the core functions and the general architecture to ensure agreement across the team.
 
-High-Level Blurb Explaining the Mechanics:
+Section 2 covers the history of Cryptogs in terms of smart contract functionality and walks through the functions within both versions found within the original repo. The earliest version had 7 transactions for game-play, whereas the next revision had only 3 transactions.
 
 ---
 
-## Austin's original information about the project:
+## High-Level Blurb Explaining the Mechanics:
 
-# Cryptogs
+---
+
+## 1.0 New Release
+
+- A breakdown of the scope of the project tldr;
+
+TODO: SlammerTime.sol and Cryptogs.sol were the core contracts. See the reference folder for commented out code (comments made in 2022 by our team). The OG project was created during an EthDenver hackathon by Austin Griffith and his team, and this "reborn" Cryptogs project has been relaunched for EthDenver 2022!
+
+## 1.1 Contract Break-Down (High Level)
+
+A breakdown of the contract architecture and features that we are going to be dealing with.
+
+### 1.1.1 Minting of Cryptogs
+
+OG contracts minted them in the same contract as the game, in packs. There are two public functions, both onlyOwner, that can be used to mint packs: mintPack() and mintBatch(). These tokens are minted, where they are given an ID aligning with Item[] items. So each element within the Item[] array contains a unique erc721 with its data stored in a struct Item. The only thing stored in the Item struct seems to be bytes32 image. Rarity is kept track of through mapping(bytes32 => uint256) public tokensOfImage, where bytes32 represents the image of the respective erc721.
+
+- mintBatch() looks like it is only used when the owner of the contract is gifting or airdropping batches to folks.
+
+### Gameplay
+
+- outlines gameplay
+
+### Testing
+
+- for testing
+
+### Quick-Start with Repo
+
+- Leveraging scaffold-eth we can just run a local environment of our game!
+
+---
+
+## Ideas for EthDenver
+
+### Minting
+
+- If we are using erc1155s now, then we have numerous varieties of Crytogs, with their own general ID. That general ID correlates with its index in the library of different types of Cryptogs available. The key difference between using erc721s and erc1155s in terms of unique ownership is that a user does not own a specific ID of a respective NFT collection. They instead own one token of many of the same tokens of a collection. So if Bob and Allice both owned Cryptog Bellsprout, then they would not have unique IDs for their NFTs. Imagine Vitalik, Satoshi, and Andre Cronje came along and had Cryptog Charizards, those would have a different index ID, but again none of them would have unique IDs for each respective Charizard. Contrary to belief, all Charizards are equal.
+
+### Gameplay
+
+#### Ideas for SlammerTime
+
+- Incorporate a function that whitelists the game contract or vice versa. Have to think about the architecture. Note that the OG contracts instantiated the contracts, essentially the version of importing contracts back then I think.
+- Can we create pirvate functions or roll the functions of raise and throw slammer into one function? Why do they need to be separate?
+- Also think we can deploy CoinFlip into another contract just to reduce the length of this thing. --> it would implement the commit/reveal aspects of the code.
+
+### Future Ideas:
+
+- Add a way to directly challenge a specific user, or if a challenge is open, have a way to specify the single user so no one else can just spam you with challenges --> a bit of front end and smart contract work to showcase the right address as the challenger.
+
+---
+
+### Aspects that Need Clarification
+
+Just need to lok at the math more closely.
+
+- FLIPPINESS:
+
+- BONUS:
+
+---
+
+# Cryptogs History
+
+This section outlines some key parts of the original smart contracts and gameplay.
+
+## Cryptogs Game - OG Contracts (7 transaction game-play)
+
+### Austin's original information about the project (2018):
 
 [<img src="https://cryptogs.io/screen.jpg">](https://cryptogs.io)
 
@@ -22,21 +90,7 @@ Purchase a pack of pogs for basically the gas it cost to mint them and come play
 
 [<img src="https://cryptogs.io/screens/slam.gif">](https://cryptogs.io)
 
----
-
-## My Extra Notes
-
-SlammerTime.sol and Cryptogs.sol were the core contracts. See the reference folder for commented out code (comments made in 2022 by our team). The OG project was created during an EthDenver hackathon by Austin Griffith and his team, and this "reborn" Cryptogs project has been relaunched for EthDenver 2022!
-
-## Contract Break-Down (High Level)
-
-### Minting of Cryptogs
-
-OG contracts minted them in the same contract as the game, in packs. There are two public functions, both onlyOwner, that can be used to mint packs: mintPack() and mintBatch(). These tokens are minted, where they are given an ID aligning with Item[] items. So each element within the Item[] array contains a unique erc721 with its data stored in a struct Item. The only thing stored in the Item struct seems to be bytes32 image. Rarity is kept track of through mapping(bytes32 => uint256) public tokensOfImage, where bytes32 represents the image of the respective erc721.
-
-- mintBatch() looks like it is only used when the owner of the contract is gifting or airdropping batches to folks.
-
-### Cryptogs Game
+<details markdown='1'><summary>Contract Breakdown</summary>
 
 GAMEPLAY:
 
@@ -134,11 +188,6 @@ throwSlammer()
 - We also assign the lastActor and lastBlock variables so the other player will be able to raise and throw slammer after this turn if there are remaining Cryptogs.
 - implements the conditional logic to assess if a flip occurs or not. If a flip does occur, then slammerTime function transferBack() is called and the respective Cryptogs are sent to the msg.sender!
 
--
-- FLIPPINESS:
-
-- BONUS:
-
 ---
 
 ### SlammerTime
@@ -154,20 +203,6 @@ transferBack():
 
 - Activated during several parts of gameplay where the cryptogs are sent back to the proper owners depending on gameplay results.
 
-## Ideas for EthDenver
+ </details>
 
-### Minting
-
-- If we are using erc1155s now, then we have numerous varieties of Crytogs, with their own general ID. That general ID correlates with its index in the library of different types of Cryptogs available. The key difference between using erc721s and erc1155s in terms of unique ownership is that a user does not own a specific ID of a respective NFT collection. They instead own one token of many of the same tokens of a collection. So if Bob and Allice both owned Cryptog Bellsprout, then they would not have unique IDs for their NFTs. Imagine Vitalik, Satoshi, and Andre Cronje came along and had Cryptog Charizards, those would have a different index ID, but again none of them would have unique IDs for each respective Charizard. Contrary to belief, all Charizards are equal.
-
-### Gameplay
-
-#### Ideas for SlammerTime
-
-- Incorporate a function that whitelists the game contract or vice versa. Have to think about the architecture. Note that the OG contracts instantiated the contracts, essentially the version of importing contracts back then I think.
-- Can we create pirvate functions or roll the functions of raise and throw slammer into one function? Why do they need to be separate?
-- Also think we can deploy CoinFlip into another contract just to reduce the length of this thing. --> it would implement the commit/reveal aspects of the code.
-
-### Future Ideas:
-
-- Add a way to directly challenge a specific user, or if a challenge is open, have a way to specify the single user so no one else can just spam you with challenges --> a bit of front end and smart contract work to showcase the right address as the challenger.
+---

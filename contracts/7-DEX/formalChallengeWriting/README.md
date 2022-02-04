@@ -1,5 +1,24 @@
 # 🏗 scaffold-eth | 🏰 BuidlGuidl
 
+<details markdown='1'><summary>Steve TODO</summary>
+
+## Merge m00npapi's recent commit from my old DEX repo to the new formal challenge repo
+
+[ ] Review m00npapi's commit and the changes involved.
+[ ] Copy them over to the respective files within a local clone of the challenge-3-simpleDEX branch.
+[ ] Confirm that they still work "off-the-shelf" with no contracts within the contract directory, as well as with simple contracts, and finally with my complete contracts. If they pass all of these things then comment out the necessary parts with App.jsx and push the commit to Github. Make sure to give m00npapi credit.
+
+## Tests:
+
+[ ] Write tests for the DEX challenge to be used for autograding.
+[ ] Review Harshit's tests
+[ ] Check to see that they work against your smart contracts
+[ ] See if they don't cover certain aspects that are needed still
+[ ] Finalize with Harshit
+[ ] Submit for review with Austin or whoever within the community
+
+ </details>
+
 ## 🚩 **Challenge 3: Minimum Viable Exchange**
 
 This challenge will help you build/understand a simple decentralized exchange, with one token-pair (ERC20 BALLOONS ($BAL) and ETH). This repo is an updated version of the [original tutorial](https://medium.com/@austin_48503/%EF%B8%8F-minimum-viable-exchange-d84f30bd0c90) and challenge repos before it. Please read the intro for a background on what we are building first! **There is a DEXTemplate.sol file for your use if you want. As well, this repo has solutions (try not to peak!) in it (in root directory, there's a solutions sub-directory) for now, but the challenge is to write the smart contracts yourself of course!**

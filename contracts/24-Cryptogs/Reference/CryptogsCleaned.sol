@@ -32,8 +32,7 @@ contract Cryptogs is NFT, Ownable {
     uint8 public constant BLOCKSUNTILCLEANUPSTACK = 1;
 
     string public ipfs;
-        address public slammerTime;
-
+    address public slammerTime;
 
     //perhaps some are harder to flip over?
     //perhaps some have magical metadata?
@@ -415,7 +414,7 @@ contract Cryptogs is NFT, Ownable {
     //tx 1: of a game, player one approves the SlammerTime contract to take their tokens
     //this triggers an event to broadcast to other players that there is an open challenge
     /**
-     * @notice 
+     * @notice
      */
     function submitStack(
         uint256 _id,

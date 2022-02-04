@@ -21,7 +21,7 @@ contract DEX {
     /**
      * @notice Emitted when init() transacted
      */
-     event InitCalled(uint256 liquidity);
+    event InitCalled(uint256 liquidity);
 
     /**
      * @notice Emitted when ethToToken() swap transacted
@@ -151,7 +151,7 @@ contract DEX {
      * NOTE: with this current code, the msg caller could end up getting very little back if the liquidity is super low in the pool. I guess they could see that with the UI.
      */
     function withdraw(uint256 amount) public returns (uint256 eth_amount, uint256 token_amount) {
-        require(liquidity[msg.sender]>= amount, "withdraw: sender does not have enough liquidity to withdraw.");
+        require(liquidity[msg.sender] >= amount, "withdraw: sender does not have enough liquidity to withdraw.");
 
         uint256 ethReserve = address(this).balance;
         uint256 tokenReserve = token.balanceOf(address(this));
@@ -176,7 +176,4 @@ contract DEX {
             totalLiquidity
         );
     }
-
-
-  
 }

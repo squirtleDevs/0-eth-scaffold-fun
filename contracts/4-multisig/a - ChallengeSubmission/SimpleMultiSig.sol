@@ -152,7 +152,7 @@ contract SimpleMultiSig {
         for (uint256 i=0; i < signatures.length; i++) {
         address publicSigner = recover(_hash, signatures[i]);
         require(publicSigner > duplicateGuard, "executeTransaction: revert, duplicate or unordered signatures");
-        duplicateGuard = recovered;
+        duplicateGuard = publicSigner;
         if (isOwner[publicSigner]){
             validVotes++;
         } 

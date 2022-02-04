@@ -68,7 +68,131 @@ This ⛳ challenge is to create your own multisig and deploy it to a live networ
 
 [ ] can you add and remove signers with a custom dialog (that just sends you to the create transaction dialog with the correct calldata) // 🙆🏻‍♂️ Answer: Add buttons in the front-end for add-signer and remove-signer. Have those tie back to either a back-end or the smart contract ABI where it can get the function call hash as a bytes32 variable with the specific parameters of `add-signer()`, `remove-signer()`, `updateSignaturesRequired()`.
 
+### 🚨 Extra as of Jan 31, 2021:
+
+[ ] Getting multiple signers together to send eth out of the multisig // Answer: implement transfer() to send ether out.
+
+But once you can make a transaction then you start to get into the territory of having the multisig interact with dapps and how you craft that calldata
+
+[ ] For instance what if you want your multisig to swap ETH to DAI using uniswap
+
+(A secret move here is using wallet connect and there is an example of this in the punk wallet.) // _Answer: I'm not sure what wallect connect is used for here. We just need the uniswap external contract address to line it up on our hardhat local network. And then we'll get the function signature by hashing the params and function name for the swap on uniswap. - From there we'd just put in the same components that pre-exist for the other two functions (add and remove signers) in order to produce a signed transaction (aka a voted YES for tx)._
+
+(You wallet connect into uniswap _as_ your multisig and do the swap in the UI and then it proposes the swap back to your multisig)
+
 [ ] BONUS: for contributing back to the challenges and making components out of these UI elements that can go back to master or be forked to make a formal challenge // 🙆🏻‍♂️ Answer: so create component files for this challenge that can be used!
+
+## Bringing in an External Contract and Creating a tx from it
+
+### Theory:
+
+In order to call a function from an external contract using a multi-sig, the following steps are carried out (whether you know it or not):
+
+1. Empty transaction details are prepared and hashed. This is done through collecting the proper function name, and the parameters that are needed for the function call, and hashing those details to produce a hexstring, or hash in the form of `bytes`, let's call it `calldata`.
+2. Stage the `calldata` within the multisig by hashing the multisig nonce, any ether value that may be sent with the tx to whatever contract that being interacted with, and the address of the user. What is happening here? You have now staged the full unsigned transaction in a bytes32 hash. A metaphor I like to use is that in step 1, you were making a cake. In this step, you're putting that cake in a box to be ready to be signed for and sent out to your favorite fren. This all happens in `getTransactionHash()`
+3. Sign the final transaction hash using ethersJS. Luckily for us, it is already taken care of within the frontend and backend in this framework from scaffold-eth. It is important to understand what is happening though, and how to actually set this up yourself using `Provider.sign()`, etc.
+
+If you're starting from scratch with this repo, then you'll have to uncomment some things. Let's go one step further though, if you're starting from scratch from the meta-multi-sig scaffold-eth-example branch, then we can talk about what steps we'll take to set up the buttons and backend to get the signed swap tx that will end up calling a local copy of the deployed uniswap v2 on our local hardhat network.
+
+NOTE: really, we could set up a separate typescript or javascript file that uses EthersJS and carries out step 2 above, completely outside of this whole scaffold-eth framework. We could then pass that `bytes signature` to the multisig to be voted on and executed.
+
+### Steps
+
+Since we want a similar UX as for the other functions within our contract, we're going to use the DAI details that can be found in app.jsx to start:
+
+Let's start at the top. You're going to have to go to `./constants` based off of this and define new variables for the external address you're dealing with. In our case, we're working with Uniswap, so we'll need all pertinent details of Uniswap here.
+
+Placeholder DAI details:
+`import { INFURA_ID, DAI_ADDRESS, DAI_ABI, NETWORK, NETWORKS } from "./constants";`
+
+Revised Uniswap details:
+`import { INFURA_ID, UNISWAP_ETHDAI_ADDRESS, UNI_ABI, NETWORK, NETWORKS } from "./constants";`
+
+Within `./constants` we'll have these constants defined:
+
+`export const UNIROUTER_ADDRESS = "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D";`
+
+- external address for the UniswapV2Router02.sol deployed.
+
+The ABI for the router, under: `export const UNIROUTER_ABI = ...`
+
+> That sets up the importing and constants needed to even start accessing the external contract for uniswap router, and thus swapping.
+
+Now, find the DAI line of code to bring in the respective external contract:
+
+`const mainnetDAIContract = useExternalContractLoader(mainnetProvider, DAI_ADDRESS, DAI_ABI);`
+
+Change it to:
+
+`const localhostUniswapRouterContract = useExternalContractLoader(localHost, UNIROUTER_ADDRESS, UNIROUTER_ABI);` - this is the hook that is recommended to use to bring in external contracts as the comments say in `App.jsx`
+
+## Will continue with the DAI importing of an external contract, but I think that I will actually start to look at the use of useContractLoader(localProvider) like m00npapi and I were looking at last night.
+
+- useContractLoader() is imported from ./hooks
+- This function is then used to load up any external contract passed into it.
+- read() and write() functions also are commented out in it, with explanation.
+
+UserProvider --> localProvider means that it will be a burner wallet. Note the below commented out tx variable, this will come in handy later:
+
+` const tx = Transactor(userProvider, gasPrice)`
+
+As you can see within App.jsx, `writeContracts` is already defined. Nice!
+
+You define your external contract as well.
+
+---
+
+## PIVOT on How to Wallet Connect
+
+- We went through the front-end code and components that m00npapi had constructed to get to the point that the scanner component was within our frontend. We pushed that to a forked repo (off of the scaffold-eth-examples meta-multi-sig branch. From there we used git to compare the commit of writing over the example repo that was there from Chris' last commit.) --> most changes are in the App.jsx file.
+- We will be going through this line by line to ensure we get the concepts and can write everything up for other people to understand hopefully.
+
+## Notes from sit down with Austin:
+
+- Note: the only way we got it to work was breaking the button when creating the actual scanner button and implementation.
+- Optimal is all jumping on our phones and voting from that UI easily.
+- Note: when it is a string, the first character is a big thing that says its a string, this is how long it is, and then it gives you all the details so it can be verrrry long.
+- We then switched to connecting to something else.
+- Something with how the wallet connect is coming into our front end app.
+
+Punkwallet:
+
+- Private key and local storage is how the punkwallet works
+- Baby multisig as there is an issue with gnosis?
+
+Questions:
+
+- Why do we have to refresh for Rinkeby to show the updates?
+- Some issues happen with DAI whereas it works with WETH.
+- When going into the console, and we hit OK, we get invalid parameters... we're not providing a proper address. --> either it's empty or not getting an address.
+
+## NOTES on changes to front-end files for scanning component from scaffold-eth-example repo with meta-multi-sig:
+
+useStaticJsonRPC --> allows you to connect with apps.
+
+_CreateTransaction.jsx_ uncommented lines 56 to 64; just the transferFunds() functions.
+
+- comment out option key
+
+_Owners_ don't worry about it.
+
+_App.jsx_
+
+-
+
+### stuff from the old repo that can likely be ignored (old as in brefore christmas)
+
+Account.jsx:
+
+Line 94 - TransactionDetails added... not sure why lol // maybe delete this later and see what happens
+
+Constants.js:
+
+Alchemy key
+
+Hooks/index.js:
+
+---
 
 [ ] BONUS: multisig as a service! Create a deploy button with a copy paste dialog for sharing so _anyone_ can make a multisig at your url with your frontend // 🙆🏻‍♂️ Answer: Create a front-end component that ties to the `constructor()` of the `MultiSig.sol` contract
 
